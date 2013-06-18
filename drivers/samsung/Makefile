@@ -6,3 +6,4 @@
 
 
 obj-y				+= startup_reason/
+obj-y				+= j4fs/
