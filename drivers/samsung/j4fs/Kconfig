@@ -35,7 +35,7 @@ config J4FS_DEVNAME
 config J4FS_PAGE_SHIFT
 	int "J4FS Page Size (11 -> 2048 KB or 12 -> 4096 KB)"
 	depends on J4FS
-	default 12
+	default 11
 	help
 	  Select Page Size.
           Block Size is calculated by below formala.
