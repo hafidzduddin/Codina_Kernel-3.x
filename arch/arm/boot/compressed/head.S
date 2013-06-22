@@ -671,6 +671,7 @@ __fa526_cache_on:
 		mcr	p15, 0, r0, c7, c10, 4	@ drain write buffer
 		mcr	p15, 0, r0, c8, c7, 0	@ flush UTLB
 		mrc	p15, 0, r0, c1, c0, 0	@ read control reg
+		bic  	r0, r0, #1 << 28  	@ clear SCTLR.TRE 
 		orr	r0, r0, #0x1000		@ I-cache enable
 		bl	__common_mmu_cache_on
 		mov	r0, #0
