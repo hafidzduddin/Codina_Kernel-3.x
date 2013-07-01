@@ -17,7 +17,6 @@
 #include <linux/sched.h>
 #include <linux/smp.h>
 #include <linux/init.h>
-#include <linux/export.h>
 
 #include <asm/cputype.h>
 #include <asm/thread_notify.h>
@@ -37,6 +36,13 @@ void vfp_null_entry(void);
 void (*vfp_vector)(void) = vfp_null_entry;
 
 /*
+ * Dual-use variable.
+ * Used in startup: set to non-zero if VFP checks fail
+ * After startup, holds VFP architecture
+ */
+unsigned int VFP_arch;
+
+/*
  * The pointer to the vfpstate structure of the thread which currently
  * owns the context held in the VFP hardware, or NULL if the hardware
  * context is invalid.
@@ -44,11 +50,17 @@ void (*vfp_vector)(void) = vfp_null_entry;
 union vfp_state *vfp_current_hw_state[NR_CPUS];
 
 /*
- * Dual-use variable.
- * Used in startup: set to non-zero if VFP checks fail
- * After startup, holds VFP architecture
+ * Is 'thread's most up to date state stored in this CPUs hardware?
+ * Must be called from non-preemptible context.
  */
-unsigned int VFP_arch;
+static bool vfp_state_in_hw(unsigned int cpu, struct thread_info *thread)
+{
+#ifdef CONFIG_SMP
+        if (thread->vfpstate.hard.cpu != cpu)
+                return false;
+#endif
+        return vfp_current_hw_state[cpu] == &thread->vfpstate;
+}
 
 /*
  * Per-thread VFP initialization.
