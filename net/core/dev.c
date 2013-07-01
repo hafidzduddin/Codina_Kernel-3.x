@@ -1045,8 +1045,6 @@ rollback:
  */
 int dev_set_alias(struct net_device *dev, const char *alias, size_t len)
 {
-	char *new_ifalias;
-
 	ASSERT_RTNL();
 
 	if (len >= IFALIASZ)
@@ -1060,10 +1058,9 @@ int dev_set_alias(struct net_device *dev, const char *alias, size_t len)
 		return 0;
 	}
 
-	new_ifalias = krealloc(dev->ifalias, len + 1, GFP_KERNEL);
-	if (!new_ifalias)
+	dev->ifalias = krealloc(dev->ifalias, len + 1, GFP_KERNEL);
+	if (!dev->ifalias)
 		return -ENOMEM;
-	dev->ifalias = new_ifalias;
 
 	strlcpy(dev->ifalias, alias, len+1);
 	return len;

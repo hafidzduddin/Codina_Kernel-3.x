@@ -108,8 +108,6 @@ source "drivers/staging/hv/Kconfig"
 
 source "drivers/staging/vme/Kconfig"
 
-source "drivers/staging/snappy/Kconfig"
-
 source "drivers/staging/sep/Kconfig"
 
 source "drivers/staging/iio/Kconfig"
