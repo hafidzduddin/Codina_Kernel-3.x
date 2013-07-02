@@ -21,7 +21,6 @@
 #include <asm/cputype.h>
 #include <asm/thread_notify.h>
 #include <asm/vfp.h>
-#include <asm/bug.h>
 
 #include "vfpinstr.h"
 #include "vfp.h"
@@ -587,6 +586,7 @@ EXPORT_SYMBOL(kernel_neon_end);
 
 #endif /* CONFIG_KERNEL_MODE_NEON */
 
+<<<<<<< HEAD
 void vfp_kmode_exception(void)
 {
 	/*
@@ -599,6 +599,8 @@ void vfp_kmode_exception(void)
 
 =======
 >>>>>>> parent of 5f9f7b5... [1/5] ARM: add support for kernel mode NEON (Linaro)
+=======
+>>>>>>> parent of f736cfa... [3/5] ARM: be strict about FP exceptions in kernel mode (Linaro)
 /*
  * VFP support code initialisation.
  */
