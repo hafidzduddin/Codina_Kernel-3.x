@@ -17,6 +17,7 @@
 #include <linux/sched.h>
 #include <linux/smp.h>
 #include <linux/init.h>
+#include <linux/export.h>
 
 #include <asm/cputype.h>
 #include <asm/thread_notify.h>
@@ -35,13 +36,6 @@ void vfp_null_entry(void);
 void (*vfp_vector)(void) = vfp_null_entry;
 
 /*
- * Dual-use variable.
- * Used in startup: set to non-zero if VFP checks fail
- * After startup, holds VFP architecture
- */
-unsigned int VFP_arch;
-
-/*
  * The pointer to the vfpstate structure of the thread which currently
  * owns the context held in the VFP hardware, or NULL if the hardware
  * context is invalid.
@@ -49,17 +43,11 @@ unsigned int VFP_arch;
 union vfp_state *vfp_current_hw_state[NR_CPUS];
 
 /*
- * Is 'thread's most up to date state stored in this CPUs hardware?
- * Must be called from non-preemptible context.
+ * Dual-use variable.
+ * Used in startup: set to non-zero if VFP checks fail
+ * After startup, holds VFP architecture
  */
-static bool vfp_state_in_hw(unsigned int cpu, struct thread_info *thread)
-{
-#ifdef CONFIG_SMP
-        if (thread->vfpstate.hard.cpu != cpu)
-                return false;
-#endif
-        return vfp_current_hw_state[cpu] == &thread->vfpstate;
-}
+unsigned int VFP_arch;
 
 /*
  * Per-thread VFP initialization.
@@ -543,7 +531,6 @@ static int vfp_hotplug(struct notifier_block *b, unsigned long action,
 	return NOTIFY_OK;
 }
 
-<<<<<<< HEAD
 #ifdef CONFIG_KERNEL_MODE_NEON
 
 /*
@@ -586,21 +573,6 @@ EXPORT_SYMBOL(kernel_neon_end);
 
 #endif /* CONFIG_KERNEL_MODE_NEON */
 
-<<<<<<< HEAD
-void vfp_kmode_exception(void)
-{
-	/*
-	 * Taking an FP exception in kernel mode is always a bug, because
-	 * none of the FP instructions currently supported in kernel mode
-	 * (i.e., NEON) should ever be bounced back to the support code.
-	 */
-	BUG_ON(fmrx(FPEXC) & FPEXC_EN);
-}
-
-=======
->>>>>>> parent of 5f9f7b5... [1/5] ARM: add support for kernel mode NEON (Linaro)
-=======
->>>>>>> parent of f736cfa... [3/5] ARM: be strict about FP exceptions in kernel mode (Linaro)
 /*
  * VFP support code initialisation.
  */
@@ -681,4 +653,4 @@ static int __init vfp_init(void)
 	return 0;
 }
 
-late_initcall(vfp_init);
+core_initcall(vfp_init);
