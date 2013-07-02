@@ -7,7 +7,7 @@ if J4FS
 
 choice
 	prompt "Select J4FS Interface"
-	default J4FS_USE_FSR
+	default J4FS_USE_MOVI
 
 config J4FS_USE_XSR
 	bool "XSR Interface"
@@ -28,7 +28,7 @@ config J4FS_PARTITION_ID
 config J4FS_DEVNAME
 	string "Select Mount Partition Path"
 	depends on J4FS_USE_MOVI
-	default "/dev/block/mmcblk0p4"
+	default "/dev/block/mmcblk0p1"
 	help
 	   Select Mount Partition Path.
 
@@ -44,7 +44,7 @@ config J4FS_PAGE_SHIFT
 config J4FS_BLOCK_COUNT
 	int "J4FS Block Count"
 	depends on J4FS_USE_MOVI
-	default 20
+	default 128
 	help
 	  Select Block Count.
 	  Blcok Size is decided by J4FS Page Size.
