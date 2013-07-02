@@ -544,6 +544,7 @@ static int vfp_hotplug(struct notifier_block *b, unsigned long action,
 	return NOTIFY_OK;
 }
 
+<<<<<<< HEAD
 #ifdef CONFIG_KERNEL_MODE_NEON
 
 /*
@@ -596,6 +597,8 @@ void vfp_kmode_exception(void)
 	BUG_ON(fmrx(FPEXC) & FPEXC_EN);
 }
 
+=======
+>>>>>>> parent of 5f9f7b5... [1/5] ARM: add support for kernel mode NEON (Linaro)
 /*
  * VFP support code initialisation.
  */
