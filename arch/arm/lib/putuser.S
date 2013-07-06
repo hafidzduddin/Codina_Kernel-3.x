@@ -72,7 +72,7 @@ ENTRY(__put_user_8)
 #else
 5:	T(str)	r2, [r0], #4
 6:	T(str)	r3, [r0]
-#endif	/* CONFIG_THUMB2_KERNEL */
+#endif
 	mov	r0, #0
 	mov	pc, lr
 ENDPROC(__put_user_8)
